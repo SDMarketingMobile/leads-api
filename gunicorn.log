@@ -1,0 +1,205 @@
+nohup: ignorando entrada
+[2018-11-22 16:37:11 -0200] [21379] [DEBUG] Current configuration:
+  config: None
+  bind: ['0.0.0.0:4500']
+  backlog: 2048
+  workers: 5
+  worker_class: sync
+  threads: 5
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 100000
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: True
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/weblinia/www/leads-api
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 0
+  group: 0
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: None
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: -
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: application:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7fd79470f510>
+  on_reload: <function OnReload.on_reload at 0x7fd79470f620>
+  when_ready: <function WhenReady.when_ready at 0x7fd79470f730>
+  pre_fork: <function Prefork.pre_fork at 0x7fd79470f840>
+  post_fork: <function Postfork.post_fork at 0x7fd79470f950>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7fd79470fa60>
+  worker_int: <function WorkerInt.worker_int at 0x7fd79470fb70>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7fd79470fc80>
+  pre_exec: <function PreExec.pre_exec at 0x7fd79470fd90>
+  pre_request: <function PreRequest.pre_request at 0x7fd79470fea0>
+  post_request: <function PostRequest.post_request at 0x7fd79470ff28>
+  child_exit: <function ChildExit.child_exit at 0x7fd7947290d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7fd7947291e0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7fd7947292f0>
+  on_exit: <function OnExit.on_exit at 0x7fd794729400>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: TLSv1
+  raw_paste_global_conf: []
+[2018-11-22 16:37:11 -0200] [21379] [INFO] Starting gunicorn 19.9.0
+[2018-11-22 16:37:11 -0200] [21379] [DEBUG] Arbiter booted
+[2018-11-22 16:37:11 -0200] [21379] [INFO] Listening at: http://0.0.0.0:4500 (21379)
+[2018-11-22 16:37:11 -0200] [21379] [INFO] Using worker: threads
+[2018-11-22 16:37:11 -0200] [21388] [INFO] Booting worker with pid: 21388
+[2018-11-22 16:37:11 -0200] [21390] [INFO] Booting worker with pid: 21390
+[2018-11-22 16:37:11 -0200] [21392] [INFO] Booting worker with pid: 21392
+[2018-11-22 16:37:11 -0200] [21394] [INFO] Booting worker with pid: 21394
+[2018-11-22 16:37:11 -0200] [21379] [DEBUG] 5 workers
+[2018-11-22 16:37:11 -0200] [21396] [INFO] Booting worker with pid: 21396
+[2018-11-22 16:38:20 -0200] [21379] [INFO] Handling signal: hup
+[2018-11-22 16:38:20 -0200] [21379] [INFO] Hang up: Master
+[2018-11-22 16:38:20 -0200] [21379] [DEBUG] Current configuration:
+  config: None
+  bind: ['0.0.0.0:4500']
+  backlog: 2048
+  workers: 5
+  worker_class: sync
+  threads: 5
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 100000
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: True
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/weblinia/www/leads-api
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 0
+  group: 0
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: None
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: -
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: application:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7fd79470f510>
+  on_reload: <function OnReload.on_reload at 0x7fd79470f620>
+  when_ready: <function WhenReady.when_ready at 0x7fd79470f730>
+  pre_fork: <function Prefork.pre_fork at 0x7fd79470f840>
+  post_fork: <function Postfork.post_fork at 0x7fd79470f950>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7fd79470fa60>
+  worker_int: <function WorkerInt.worker_int at 0x7fd79470fb70>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7fd79470fc80>
+  pre_exec: <function PreExec.pre_exec at 0x7fd79470fd90>
+  pre_request: <function PreRequest.pre_request at 0x7fd79470fea0>
+  post_request: <function PostRequest.post_request at 0x7fd79470ff28>
+  child_exit: <function ChildExit.child_exit at 0x7fd7947290d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7fd7947291e0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7fd7947292f0>
+  on_exit: <function OnExit.on_exit at 0x7fd794729400>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: TLSv1
+  raw_paste_global_conf: []
+[2018-11-22 16:38:20 -0200] [21494] [INFO] Booting worker with pid: 21494
+[2018-11-22 16:38:20 -0200] [21495] [INFO] Booting worker with pid: 21495
+[2018-11-22 16:38:20 -0200] [21493] [INFO] Booting worker with pid: 21493
+[2018-11-22 16:38:20 -0200] [21492] [INFO] Booting worker with pid: 21492
+[2018-11-22 16:38:20 -0200] [21496] [INFO] Booting worker with pid: 21496
+[2018-11-22 17:32:57 -0200] [21492] [DEBUG] GET /cities
+[2018-11-22 17:32:57 -0200] [21492] [DEBUG] GET /cities
+[2018-11-22 17:32:57 -0200] [21492] [DEBUG] GET /cities
+[2018-11-22 17:32:58 -0200] [21492] [DEBUG] GET /cities
+[2018-11-22 17:32:58 -0200] [21492] [DEBUG] GET /cities
+[2018-11-22 17:33:04 -0200] [21492] [DEBUG] GET /lines
+[2018-11-22 17:33:04 -0200] [21492] [DEBUG] GET /routes
+[2018-11-22 17:33:06 -0200] [21492] [DEBUG] Closing connection. 
+[2018-11-22 17:33:12 -0200] [21492] [DEBUG] GET /cities
+[2018-11-22 17:33:12 -0200] [21492] [DEBUG] GET /cities
+[2018-11-22 17:33:13 -0200] [21492] [DEBUG] GET /cities
+[2018-11-22 17:33:13 -0200] [21492] [DEBUG] GET /cities
+[2018-11-22 17:33:13 -0200] [21492] [DEBUG] GET /cities
+[2018-11-22 17:33:14 -0200] [21492] [DEBUG] GET /lines
+[2018-11-22 17:33:14 -0200] [21492] [DEBUG] GET /routes
+[2018-11-22 17:33:16 -0200] [21492] [DEBUG] Closing connection. 
+[2018-11-23 12:43:44 -0200] [21379] [INFO] Handling signal: term
+[2018-11-23 12:43:44 -0200] [21494] [INFO] Worker exiting (pid: 21494)
+[2018-11-23 12:43:44 -0200] [21495] [INFO] Worker exiting (pid: 21495)
+[2018-11-23 12:43:44 -0200] [21493] [INFO] Worker exiting (pid: 21493)
+[2018-11-23 12:43:44 -0200] [21492] [INFO] Worker exiting (pid: 21492)
+[2018-11-23 12:43:44 -0200] [21496] [INFO] Worker exiting (pid: 21496)
+[2018-11-23 12:43:46 -0200] [21379] [INFO] Shutting down: Master
