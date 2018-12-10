@@ -67,16 +67,17 @@ class VehicleVersionData(EmbeddedDocument):
 	id 			= StringField()
 
 class VehicleInformation(EmbeddedDocument):
-	id 			= StringField()
-	ano_modelo 	= StringField()
-	marca 		= StringField()
-	name 		= StringField()
-	veiculo 	= StringField()
-	preco 		= StringField()
-	combustivel = StringField()
 	referencia 	= StringField()
 	fipe_codigo = StringField()
+	name 		= StringField()
+	combustivel = StringField()
+	marca 		= StringField()
+	ano_modelo 	= StringField()
+	preco 		= StringField()
 	key 		= StringField()
+	time 		= FloatField()
+	veiculo 	= StringField()
+	id 			= StringField()
 
 class SalePassengerItem(EmbeddedDocument):
 	id 				= StringField()
@@ -118,12 +119,11 @@ class Vehicle(CustomBaseDocument):
 class Line(CustomBaseDocument):
 	meta = {'collection': 'lines'}
 
-	vehicle			= ReferenceField('Vehicle')
-	state_origin 	= StringField()
-	city_origin 	= StringField()
-	state_destiny 	= StringField()
-	city_destiny 	= StringField()
-	person_price 	= FloatField()
+	description  = StringField()
+	vehicle 	 = ReferenceField('Vehicle')
+	origin 		 = ReferenceField('City')
+	destiny 	 = ReferenceField('City')
+	person_price = FloatField()
 
 	def to_json(self):
 		data = self.to_mongo()
@@ -134,6 +134,16 @@ class Line(CustomBaseDocument):
 			data['vehicle'] = self.vehicle.to_mongo()
 			data['vehicle']["id"] = str(self.vehicle.id)
 			del data['vehicle']['_id']
+
+		if not (self.origin is None):
+			data['origin'] = self.origin.to_mongo()
+			data['origin']["id"] = str(self.origin.id)
+			del data['origin']['_id']
+
+		if not (self.destiny is None):
+			data['destiny'] = self.destiny.to_mongo()
+			data['destiny']["id"] = str(self.destiny.id)
+			del data['destiny']['_id']
 
 		return json_util.dumps(data)
 
@@ -158,6 +168,16 @@ class Route(CustomBaseDocument):
 			data['line'] = self.line.to_mongo()
 			data['line']["id"] = str(self.line.id)
 			del data['line']['_id']
+
+			if not (self.line.origin is None):
+				data['line']['origin'] = self.line.origin.to_mongo()
+				data['line']['origin']["id"] = str(self.line.origin.id)
+				del data['line']['origin']['_id']
+
+			if not (self.line.destiny is None):
+				data['line']['destiny'] = self.line.destiny.to_mongo()
+				data['line']['destiny']["id"] = str(self.line.destiny.id)
+				del data['line']['destiny']['_id']
 
 		return json_util.dumps(data)
 
@@ -210,13 +230,23 @@ class Sale(CustomBaseDocument):
 			data['route']["id"] = str(self.route.id)
 			del data['route']['_id']
 
-			data['route']["departure_date"] = data['route']["departure_date"].strftime("%d/%m/%Y %H:%M:%S") if "departure_date" in data['route'] else None
-			data['route']["arrival_date"] = data['route']["arrival_date"].strftime("%d/%m/%Y %H:%M:%S") if "arrival_date" in data['route'] else None
+			data['route']["departure_date"] = data['route']["departure_date"].strftime("%d/%m/%y %H:%M") if "departure_date" in data['route'] else None
+			data['route']["arrival_date"] = data['route']["arrival_date"].strftime("%d/%m/%y %H:%M") if "arrival_date" in data['route'] else None
 
 			if not (self.route.line is None):
 				data['route']['line'] = self.route.line.to_mongo()
 				data['route']['line']["id"] = str(self.route.line.id)
 				del data['route']['line']['_id']
+
+				if not (self.route.line.origin is None):
+					data['route']['line']['origin'] = self.route.line.origin.to_mongo()
+					data['route']['line']['origin']["id"] = str(self.route.line.origin.id)
+					del data['route']['line']['origin']['_id']
+
+				if not (self.route.line.destiny is None):
+					data['route']['line']['destiny'] = self.route.line.destiny.to_mongo()
+					data['route']['line']['destiny']["id"] = str(self.route.line.destiny.id)
+					del data['route']['line']['destiny']['_id']
 
 		if not (self.passengers is None):
 			data['passengers'] = []
@@ -266,6 +296,7 @@ class City(CustomBaseDocument):
 
 	# Collection fields
 	name = StringField(required=True)
+	federative_unit = StringField(required=True)
 
 	def to_json(self):
 		data = self.to_mongo()

@@ -1,1 +1,1 @@
-/usr/local/lib/python3.7/_dummy_thread.py
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/_dummy_thread.py

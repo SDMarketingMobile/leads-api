@@ -1,0 +1,22 @@
+Metadata-Version: 2.0
+Name: bottle-oauthlib
+Version: 1.2.1
+Summary: Bottle adapter for OAuthLib framework (OAuth2.0)
+Home-page: https://github.com/thomsonreuters/bottle-oauthlib
+Author: Thomson Reuters
+Author-email: EikonEdge.Infra-Dev@thomsonreuters.com
+License: BSD-3-Clause
+Description-Content-Type: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: Programming Language :: Python :: 3.6
+Requires-Dist: bottle
+Requires-Dist: oauthlib
+Requires-Dist: requests
+
+UNKNOWN
+
+

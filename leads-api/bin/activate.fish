@@ -36,7 +36,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/weblinia/public_html/leads-api/leads-api"
+set -gx VIRTUAL_ENV "/Users/filipemcoelho/Sites/leads-api/leads-api"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

@@ -8,6 +8,8 @@ from bson import DBRef
 from mongoengine import *
 from ..model.models import *
 from ..util.utils import *
+from dateutil.relativedelta import relativedelta
+from dateutil.parser import parse
 
 @get('/route/<id:re:[0-9a-f]{24}>')
 def get_by_id(id):
@@ -23,10 +25,6 @@ def get_all():
 	try:
 		url_params = UrlUtil().url_parse(request.query_string)
 
-		if (not('offset' in url_params)) and (not('limit' in url_params)):
-			response.status = 406
-			return 'Os parâmetros "offset" e "limit" não foram informados'
-
 		query_set = Route.objects(deleted = False).filter()
 
 		if 'departure_date' in url_params['params']:
@@ -40,7 +38,10 @@ def get_all():
 				line = DBRef('lines', ObjectId(url_params['params']['line_id']))
 			)
 
-		result = PaginationUtil().paginate(query_set, url_params['offset'], url_params['limit'])
+		if (not('offset' in url_params)) and (not('limit' in url_params)):
+			result = query_set.to_json()
+		else:
+			result = PaginationUtil().paginate(query_set, url_params['offset'], url_params['limit'])
 		
 		if (not (result is None)):
 			response.headers['Content-Type'] = 'application/json'
@@ -53,15 +54,17 @@ def get_all():
 		return 'Nenhum registro encontrado'
 
 @post('/route')
-def new():
+def new(data=None):
 	try:
-		# load data from post
-		post_data = jsonpickle.decode(request.body.read().decode('utf-8'))
+		if data is None:
+			post_data = jsonpickle.decode(request.body.read().decode('utf-8'))
+		else:
+			post_data = data
 
 		route = Route()
 		route.line 				= DBRef('lines', ObjectId(post_data['line']['id']))
-		route.departure_date 	= post_data['departure_date']
-		route.arrival_date 		= post_data['arrival_date']
+		route.departure_date 	= parse(post_data['departure_date'])
+		route.arrival_date 		= parse(post_data['arrival_date'])
 		route.save()
 
 		response.status = 201

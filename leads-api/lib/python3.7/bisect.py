@@ -1,1 +1,1 @@
-/usr/local/lib/python3.7/bisect.py
+/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/bisect.py

@@ -1,4 +1,4 @@
-#!/home/weblinia/public_html/leads-api/leads-api/bin/python3.7
+#!/Users/filipemcoelho/Sites/leads-api/leads-api/bin/python3
 
 # -*- coding: utf-8 -*-
 import re

@@ -40,7 +40,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/weblinia/public_html/leads-api/leads-api"
+VIRTUAL_ENV="/Users/filipemcoelho/Sites/leads-api/leads-api"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

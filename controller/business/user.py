@@ -74,98 +74,105 @@ def get_all():
 @post('/user')
 def new():
 	try:
-		iugu_environment = None
-		iugu_token = None
-		
-		try:
-			iugu_environment = Configuration.objects(key='iugu_api_environment').get()
-			iugu_environment = iugu_environment.value
-		except DoesNotExist as e:
-			response.status = 406
-			return 'Ambiente de integração c/ IUGU não configurado!'
-		
-		try:
-			iugu_token = Configuration.objects(key='iugu_api_'+ iugu_environment +'_token').get()
-			iugu_token = iugu_token.value
-		except DoesNotExist as e:
-			response.status = 406
-			return 'Token de integração c/ IUGU não configurado!'
-
-		api = iugu.config(token=iugu_token)
-
 		# load data from post
 		post_data = jsonpickle.decode(request.body.read().decode('utf-8'))
 
-		'''
-		try:
-			user_exists = User.objects(
-				email = post_data['email']
-			).filter()
-
-			if not (user_exists is None) and (len(user_exists) > 0):
-				response.status = 406
-				return 'Já existe um usuário cadastrado com este email!'
-		except DoesNotExist as e:
-			pass
-		'''
-
-		if 'arquivo' in post_data:
-			# convert data and create temporary CSV file
-			file_path = 'images/'+ str(ObjectId()) +'.'+ post_data['arquivo']['type']
-			file = open(file_path, 'wb')
-			file.write(base64.decodestring(post_data['arquivo']['path']))
-			file.close()
-
 		password = bcrypt.hashpw(post_data['password'].encode('utf-8'), bcrypt.gensalt())
 
-		addressUser = AddressUserData()
-		addressUser.street 		= post_data['address']['street']
-		addressUser.number 		= post_data['address']['number']
-		addressUser.district 	= post_data['address']['district']
-		addressUser.city 		= post_data['address']['city']
-		addressUser.state 		= post_data['address']['state']
-		addressUser.zip_code 	= post_data['address']['zip_code']
-		addressUser.complement 	= post_data['address']['complement']
+		if not('profile' in post_data):
+			response.status = 406
+			return 'O perfil do usuário é obrigatório!'
+		elif post_data['profile'] == 'customer':
+			iugu_active = False
+			iugu_environment = None
+			iugu_token = None
+			
+			try:
+				iugu_active = Configuration.objects(key='iugu_api_active').get()
+				iugu_active = bool(iugu_active.value)
+			except DoesNotExist as e:
+				pass
 
-		user = User()
-		user.name 			= post_data['name']
-		user.email 			= post_data['email']
-		user.cpf_cnpj		= post_data['cpf_cnpj']
-		user.phone_prefix	= post_data['phone_prefix']
-		user.phone 			= post_data['phone']
-		user.iugu_id		= post_data['iugu_id']
-		user.profile 		= post_data['profile']
-		user.photo_path 	= file_path if 'arquivo' in post_data else None
-		user.address		= addressUser
-		user.password 		= password
-		user.save()
+			if iugu_active:
+				try:
+					iugu_environment = Configuration.objects(key='iugu_api_environment').get()
+					iugu_environment = iugu_environment.value
+				except DoesNotExist as e:
+					response.status = 406
+					return 'Ambiente de integração c/ IUGU não configurado!'
+				
+				try:
+					iugu_token = Configuration.objects(key='iugu_api_'+ iugu_environment +'_token').get()
+					iugu_token = iugu_token.value
+				except DoesNotExist as e:
+					response.status = 406
+					return 'Token de integração c/ IUGU não configurado!'
 
-		customer_data = {
-			'name': 		post_data['name'],
-			'email': 		post_data['email'] if 'email' in post_data else None,
-			'cpf_cnpj': 	post_data['cpf_cnpj'],
-			'zip_code': 	post_data['address']['zip_code'],
-			'number':   	post_data['address']['number'],
-			'street':   	post_data['address']['street'],
-			'city': 		post_data['address']['city'] if 'city' in post_data['address'] else None,
-			'state': 		post_data['address']['state'] if 'state' in post_data['address'] else None,
-			'district': 	post_data['address']['district'] if 'district' in post_data['address'] else None,
-			'complement': 	post_data['address']['complement'] if 'complement' in post_data['address'] else None,
-			'custom_variables': [
-				{
-					'name': 'reference_id',
-					'value': str(user.id)
+				api = iugu.config(token=iugu_token)
+
+			if 'arquivo' in post_data:
+				# convert data and create temporary CSV file
+				file_path = 'images/'+ str(ObjectId()) +'.'+ post_data['arquivo']['type']
+				file = open(file_path, 'wb')
+				file.write(base64.decodestring(post_data['arquivo']['path']))
+				file.close()
+
+			addressUser = AddressUserData()
+			addressUser.street 		= post_data['address']['street']
+			addressUser.number 		= post_data['address']['number']
+			addressUser.district 	= post_data['address']['district']
+			addressUser.city 		= post_data['address']['city']
+			addressUser.state 		= post_data['address']['state']
+			addressUser.zip_code 	= post_data['address']['zip_code']
+			addressUser.complement 	= post_data['address']['complement']
+
+			user = User()
+			user.name 			= post_data['name']
+			user.email 			= post_data['email']
+			user.cpf_cnpj		= post_data['cpf_cnpj']
+			user.phone_prefix	= post_data['phone_prefix']
+			user.phone 			= post_data['phone']
+			user.iugu_id		= post_data['iugu_id']
+			user.profile 		= post_data['profile']
+			user.photo_path 	= file_path if 'arquivo' in post_data else None
+			user.address		= addressUser
+			user.password 		= password
+			user.save()
+
+			if iugu_active:
+				customer_data = {
+					'name': 		post_data['name'],
+					'email': 		post_data['email'] if 'email' in post_data else None,
+					'cpf_cnpj': 	post_data['cpf_cnpj'],
+					'zip_code': 	post_data['address']['zip_code'],
+					'number':   	post_data['address']['number'],
+					'street':   	post_data['address']['street'],
+					'city': 		post_data['address']['city'] if 'city' in post_data['address'] else None,
+					'state': 		post_data['address']['state'] if 'state' in post_data['address'] else None,
+					'district': 	post_data['address']['district'] if 'district' in post_data['address'] else None,
+					'complement': 	post_data['address']['complement'] if 'complement' in post_data['address'] else None,
+					'custom_variables': [
+						{
+							'name': 'reference_id',
+							'value': str(user.id)
+						}
+					]
 				}
-			]
-		}
 
-		iugu_customer = iugu.Customer().create(customer_data)
+				iugu_customer = iugu.Customer().create(customer_data)
 
-		User.objects(
-			id = user.id
-		).update_one(
-			iugu_id=iugu_customer['id']
-		)
+				User.objects(
+					id = user.id
+				).update_one(
+					iugu_id=iugu_customer['id']
+				)
+		elif post_data['profile'] == 'admin':
+			user = User()
+			user.name 		= post_data['name']
+			user.email 		= post_data['email']
+			user.password 	= password
+			user.profile 	= post_data['profile']
+			user.save()
 
 		user = User.objects(
 			id = user.id
@@ -190,7 +197,6 @@ def update(id):
 				os.remove(user.get().photo_path)
 
 			if 'arquivo' in request_data:
-				# convert data and create temporary CSV file
 				file_path = 'images/'+ str(ObjectId()) +'.'+ request_data['arquivo']['type']
 				file = open(file_path, 'wb')
 				file.write(base64.decodestring(request_data['arquivo']['path']))
@@ -200,9 +206,8 @@ def update(id):
 
 		user.update_one(
 			name 		= request_data['name'],
-			login 		= request_data['login'],
+			email 		= request_data['email'],
 			password 	= bcrypt.hashpw(request_data['password'].encode('utf-8'), bcrypt.gensalt()),
-			profile 	= request_data['profile'],
 			photo_path 	= file_path
 		)
 

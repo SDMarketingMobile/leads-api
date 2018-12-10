@@ -1,4 +1,4 @@
-#!/home/weblinia/public_html/leads-api/leads-api/bin/python
+#!/Users/filipemcoelho/Sites/leads-api/leads-api/bin/python
 
 import sys
 import getopt

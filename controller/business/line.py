@@ -8,6 +8,7 @@ from bson import DBRef
 from mongoengine import *
 from ..model.models import *
 from ..util.utils import *
+from . import route
 
 @get('/line/<id:re:[0-9a-f]{24}>')
 def get_by_id(id):
@@ -29,17 +30,9 @@ def get_all():
 
 		query_set = Line.objects(deleted = False).filter()
 
-		if 'profile' in url_params['params']:
-			query_set = query_set.filter(profile = url_params['params']['profile'])
-
-		if 'city_origin' in url_params['params']:
+		if 'filter' in url_params['params']:
 			query_set = query_set.filter(
-				Q(city_origin__icontains = url_params['params']['city_origin'])
-			)
-
-		if 'city_destiny' in url_params['params']:
-			query_set = query_set.filter(
-				Q(city_destiny__icontains = url_params['params']['city_destiny'])
+				origin__name__icontains = DBRef('cities', ObjectId(url_params['params']['filter']))
 			)
 
 		result = PaginationUtil().paginate(query_set, url_params['offset'], url_params['limit'])
@@ -61,13 +54,23 @@ def new():
 		post_data = jsonpickle.decode(request.body.read().decode('utf-8'))
 
 		line = Line()
+		line.description 	= post_data['description']
 		line.vehicle 		= DBRef('vehicles', ObjectId(post_data['vehicle']['id']))
-		line.state_origin	= post_data['state_origin']
-		line.city_origin	= post_data['city_origin']
-		line.state_destiny	= post_data['state_destiny']
-		line.city_destiny	= post_data['city_destiny']
-		line.person_price	= post_data['person_price']
+		line.origin			= DBRef('cities', ObjectId(post_data['origin']['id']))
+		line.destiny 		= DBRef('cities', ObjectId(post_data['destiny']['id']))
+		line.person_price 	= float(post_data['person_price'])
 		line.save()
+
+		if not('routes' in post_data):
+			response.status = 406
+			return 'Você deve informar ao menos uma rota'
+		else:
+			for item in post_data['routes']:
+				if 'deleted' in item and bool(item['deleted']) == False:
+					item['line'] = {
+						'id': str(line.id)
+					}
+					route.new(item)
 
 		response.status = 201
 		response.headers['Content-Type'] = 'application/json'
@@ -84,13 +87,25 @@ def update(id):
 		line = Line.objects(id = id)
 
 		line.update_one(
+			description 	= request_data['description'],
 			vehicle 		= DBRef('vehicles', ObjectId(request_data['vehicle']['id'])),
-			state_origin 	= request_data['state_origin'],
-			city_origin 	= request_data['city_origin'],
-			state_destiny 	= request_data['state_destiny'],
-			city_destiny 	= request_data['city_destiny'],
+			origin			= DBRef('cities', ObjectId(request_data['origin']['id'])),
+			destiny 		= DBRef('cities', ObjectId(request_data['destiny']['id'])),
 			person_price 	= request_data['person_price']
 		)
+
+		if not('routes' in request_data):
+			response.status = 406
+			return 'Você deve informar ao menos uma rota'
+		else:
+			for item in request_data['routes']:
+				if not('id' in item):
+					item['line'] = {
+						'id': id
+					}
+					route.new(item)
+				elif 'deleted' in item and bool(item['deleted']) == True:
+					route.delete(item['id'])
 
 		response.status = 200
 		response.headers['Content-Type'] = 'application/json'
