@@ -20,4 +20,4 @@ python-dateutil==2.7.3
 requests==2.19.1
 six==1.11.0
 suds-jurko==0.6
-urllib3==1.23
+urllib3==1.26.5
